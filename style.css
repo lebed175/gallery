@@ -1,0 +1,349 @@
+@font-face {
+    font-family: 'Montserrat';
+    src: url(./fonts/montserrat-thin.woff2) format('woff2');
+    font-weight: 200;
+    font-style: normal;
+    display: swap;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url(./fonts/montserrat-regular.woff2) format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    display: swap;
+}
+
+
+/**
+  Нормализация блочной модели
+ */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/**
+    Убираем внутренние отступы слева тегам списков,
+    у которых есть атрибут class
+   */
+:where(ul, ol):where([class]) {
+    padding-left: 0;
+}
+
+/**
+    Убираем внешние отступы body и двум другим тегам,
+    у которых есть атрибут class
+   */
+body,
+:where(blockquote, figure):where([class]) {
+    margin: 0;
+}
+
+/**
+    Убираем внешние отступы вертикали нужным тегам,
+    у которых есть атрибут class
+   */
+:where(h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    ul,
+    ol,
+    dl):where([class]) {
+    margin-block: 0;
+}
+
+:where(dd[class]) {
+    margin-left: 0;
+}
+
+:where(fieldset[class]) {
+    margin-left: 0;
+    padding: 0;
+    border: none;
+}
+
+/**
+    Убираем стандартный маркер маркированному списку,
+    у которого есть атрибут class
+   */
+:where(ul[class]) {
+    list-style: none;
+}
+
+/**
+    Обнуляем вертикальные внешние отступы параграфа,
+    объявляем локальную переменную для внешнего отступа вниз,
+    чтобы избежать взаимодействие с более сложным селектором
+   */
+p {
+    --paragraphMarginBottom: 24px;
+
+    margin-block: 0;
+}
+
+/**
+    Внешний отступ вниз для параграфа без атрибута class,
+    который расположен не последним среди своих соседних элементов
+   */
+p:where(:not([class]):not(:last-child)) {
+    margin-bottom: var(--paragraphMarginBottom);
+}
+
+
+/**
+    Упрощаем работу с изображениями
+   */
+img {
+    display: block;
+    max-width: 100%;
+}
+
+/**
+    Наследуем свойства шрифт для полей ввода
+   */
+input,
+textarea,
+select,
+button {
+    font: inherit;
+}
+
+html {
+    /**
+      Пригодится в большинстве ситуаций
+      (когда, например, нужно будет "прижать" футер к низу сайта)
+     */
+    height: 100%;
+    /**
+      Плавный скролл
+     */
+    scroll-behavior: smooth;
+}
+
+body {
+    /**
+      Пригодится в большинстве ситуаций
+      (когда, например, нужно будет "прижать" футер к низу сайта)
+     */
+    min-height: 100%;
+    /**
+      Унифицированный интерлиньяж
+     */
+    line-height: 1.5;
+}
+
+/**
+    Приводим к единому цвету svg-элементы
+   */
+svg *[fill] {
+    fill: currentColor
+}
+
+svg *[stroke] {
+    stroke: currentColor
+}
+
+/**
+    Чиним баг задержки смены цвета при взаимодействии с svg-элементами
+   */
+svg * {
+    transition-property: fill, stroke;
+}
+
+/**
+    Удаляем все анимации и переходы для людей,
+    которые предпочитают их не использовать
+   */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* КОНЕЦ НОРМАЛИЗАЦИИ СТИЛЕЙ */
+
+.visually-hidden {
+    display: none;
+}
+
+.container {
+    max-width: 1880px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navigation__list {
+    display: flex;
+    column-gap: 40px;
+}
+
+.navigation__link {
+    font-family: 'Montserrat';
+    font-weight: bold;
+    font-size: 12px;
+    text-decoration: none;
+    transition-duration: 0.4s;
+}
+
+.navigation__link:visited {
+    color: black;
+}
+
+.navigation__link:hover {
+    color: #73b2cf;
+}
+
+.gallery {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    row-gap: 10px;
+    column-gap: 10px;
+    margin-top: 20px;
+}
+
+.gallery__item {
+    position: relative;
+    transition: all 0.4s;
+}
+
+.gallery__item::after {
+    content: url(./icons/cross.png);
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* ПОЧЕМУ НЕ ПОЯВЛЯЕТСЯ ПЛЮС? РАЗОБРАТЬСЯ */
+
+.gallery__item:hover {
+    filter: brightness(0.5);
+}
+
+.footer {
+    padding-block: 40px;
+    background-color: rgb(39, 38, 38);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer__text {
+    color: white;
+    padding-left: 3cqh;
+    font-family: 'Montserrat';
+    font-weight: 400;
+}
+
+.social__list {
+    display: flex;
+    column-gap: 40px;
+    padding-right: 30px;
+}
+
+.social__item {
+    transition-duration: 0.4s;
+}
+
+.social__item:hover {
+    opacity: 0.5;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .7);
+    z-index: 1000; 
+    font-family: 'Montserrat';
+    font-weight: 400;
+    color: #ffffff;
+}
+
+.modal__content {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    padding: 20px;
+}
+
+.modal__header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal__button-close {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.modal__button-close:hover {
+    filter: brightness(1.4);
+}
+
+.modal__main {
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.modal__main-picture {
+    width: 90vh;
+    height: 70vh;
+    align-self: center;
+    display: flex;
+    justify-content: center;
+}
+
+.test {
+    width: 90%;
+    max-height: auto;
+}
+
+.modal__main-prev {
+    background-color: transparent;
+    border: none;
+    filter: brightness(2);
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.modal__main-prev:hover {
+    filter: brightness(3);
+}
+
+.modal__main-next {
+    background-color: transparent;
+    border: none;
+    filter: brightness(2);
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.modal__main-next:hover {
+    filter: brightness(3);
+}
