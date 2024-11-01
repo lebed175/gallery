@@ -348,3 +348,8 @@ svg * {
 .modal__main-next:hover {
     filter: brightness(3);
 }
+
+.arrow-disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}

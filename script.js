@@ -3,10 +3,12 @@ for (let i = 0; i < 24; i++) {
     const image = new Image()
     image.src = `./pictures/${i + 1}.jpg`
     image.classList.add('gallery__item')
+    image.classList.add(`${i + 1}`)
     arrayPictures.unshift(image)
 };
 
 let currentPhotoIndex = 0;
+let currentPhotoNumber = 0
 
 function nextPhoto() {
     currentPhotoIndex--
@@ -17,51 +19,86 @@ function prevPhoto() {
 };
 
 
-arrayPictures.map(el => {
+arrayPictures.map((el, index) => {
     document.querySelector('.gallery').insertAdjacentElement('afterbegin', el)
 
     el.onclick = function (click) {
         document.querySelector('.modal').classList.remove('visually-hidden')
+        currentPhotoNumber = Number(el.classList[1])
         currentPhotoIndex = arrayPictures.indexOf(el)
         const copy = el.cloneNode(true)
         document.querySelector('.modal__main-picture').appendChild(copy)
+        document.querySelector('.modal__text').textContent = `${currentPhotoNumber} / 24`
 
         document.querySelector('.modal__button-close').onclick = function () {
             copy.remove()
             document.querySelector('.modal').classList.add('visually-hidden')
+            if (document.querySelector('.modal__main-picture').childElementCount === 1) {
+                document.querySelector('.modal__main-picture').firstChild.remove()
+            }
+
+            document.querySelector('.modal__main-next').classList.remove('arrow-disabled')
+            document.querySelector('.modal__main-prev').classList.remove('arrow-disabled')
         }
 
         document.querySelector('.modal__main-next').onclick = function (click) {
+            currentPhotoNumber++
+            document.querySelector('.modal__text').textContent = `${currentPhotoNumber} / 24`
             copy.remove()
             nextPhoto()
             let next = arrayPictures[currentPhotoIndex].cloneNode(true)
             next.classList.add('opened')
             document.querySelector('.modal__main-picture').appendChild(next)
 
-            if (document.querySelector('.modal__main-picture').firstChild.nextSibling.classList.contains('opened')) {
-                document.querySelector('.modal__main-picture').firstChild.remove()
+            try {
+                if (document.querySelector('.modal__main-picture').firstChild.nextSibling.classList.contains('opened')) {
+                    document.querySelector('.modal__main-picture').firstChild.remove()
+                }
+            } catch (error) {
+                console.log(error)
             }
+
+            if (currentPhotoNumber !== 1) {
+                document.querySelector('.modal__main-prev').classList.remove('arrow-disabled')
+            }
+
+            if (currentPhotoNumber === 24) {
+                document.querySelector('.modal__main-next').classList.add('arrow-disabled')
+            }
+
+            console.log(currentPhotoNumber)
         }
 
         document.querySelector('.modal__main-prev').onclick = function (click) {
+            currentPhotoNumber--
+            document.querySelector('.modal__text').textContent = `${currentPhotoNumber} / 24`
             copy.remove()
             prevPhoto()
             let prev = arrayPictures[currentPhotoIndex].cloneNode(true)
             prev.classList.add('opened')
             document.querySelector('.modal__main-picture').appendChild(prev)
 
+            if (currentPhotoNumber === 1) {
+                document.querySelector('.modal__main-prev').classList.add('arrow-disabled')
+            }
+
+            if (currentPhotoNumber !== 24) {
+                document.querySelector('.modal__main-next').classList.remove('arrow-disabled')
+            }
+
             if (document.querySelector('.modal__main-picture').firstChild.nextSibling.classList.contains('opened')) {
                 document.querySelector('.modal__main-picture').firstChild.remove()
             }
+
+            console.log(currentPhotoNumber)
+        }
+
+        if (currentPhotoNumber === 1) {
+            document.querySelector('.modal__main-prev').classList.add('arrow-disabled')
+        }
+
+        if (currentPhotoNumber === 24) {
+            document.querySelector('.modal__main-next').classList.add('arrow-disabled')
         }
     }
 });
-
-
-// Пофиксить баги:
-// 1) При выходе с фото с помощью крестика, и, затем, открытии рандомной фотографии снова, открывается модальное окно с последней фотографией;
-// 2) Если листать до упора вправо или влево, то currentPhotoIndex наберёт в себя лишние числа, и, затем, чтобы отлистать обратно нужно прокликать такое кол-во раз, 
-// сколько было накликано после упора;
-// 3) Доделать момент с цифрой слева сверху модального окна, она будет напрямую связана с currentPhotoIndex;
-// 4) Сделать псеводэлемент крестика (это связано с массивом, который вместил в себя лишь 24 элемента, стоит увеличить x2 (???))
-// Если обнаружаться ещё баги, то отмечать их и затем исправлять.
