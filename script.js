@@ -27,6 +27,8 @@ arrayPictures.map((el, index) => {
         currentPhotoNumber = Number(el.classList[1])
         currentPhotoIndex = arrayPictures.indexOf(el)
         const copy = el.cloneNode(true)
+        copy.classList.add('opened')
+        copy.classList.remove('gallery__item')
         document.querySelector('.modal__main-picture').appendChild(copy)
         document.querySelector('.modal__text').textContent = `${currentPhotoNumber} / 24`
 
@@ -39,7 +41,7 @@ arrayPictures.map((el, index) => {
 
             document.querySelector('.modal__main-next').classList.remove('arrow-disabled')
             document.querySelector('.modal__main-prev').classList.remove('arrow-disabled')
-        }
+        };
 
         document.querySelector('.modal__main-next').onclick = function (click) {
             currentPhotoNumber++
@@ -47,6 +49,7 @@ arrayPictures.map((el, index) => {
             copy.remove()
             nextPhoto()
             let next = arrayPictures[currentPhotoIndex].cloneNode(true)
+            next.classList.remove('gallery__item')
             next.classList.add('opened')
             document.querySelector('.modal__main-picture').appendChild(next)
 
@@ -65,9 +68,7 @@ arrayPictures.map((el, index) => {
             if (currentPhotoNumber === 24) {
                 document.querySelector('.modal__main-next').classList.add('arrow-disabled')
             }
-
-            console.log(currentPhotoNumber)
-        }
+        };
 
         document.querySelector('.modal__main-prev').onclick = function (click) {
             currentPhotoNumber--
@@ -75,6 +76,7 @@ arrayPictures.map((el, index) => {
             copy.remove()
             prevPhoto()
             let prev = arrayPictures[currentPhotoIndex].cloneNode(true)
+            prev.classList.remove('gallery__item')
             prev.classList.add('opened')
             document.querySelector('.modal__main-picture').appendChild(prev)
 
@@ -89,9 +91,7 @@ arrayPictures.map((el, index) => {
             if (document.querySelector('.modal__main-picture').firstChild.nextSibling.classList.contains('opened')) {
                 document.querySelector('.modal__main-picture').firstChild.remove()
             }
-
-            console.log(currentPhotoNumber)
-        }
+        };
 
         if (currentPhotoNumber === 1) {
             document.querySelector('.modal__main-prev').classList.add('arrow-disabled')
@@ -99,6 +99,44 @@ arrayPictures.map((el, index) => {
 
         if (currentPhotoNumber === 24) {
             document.querySelector('.modal__main-next').classList.add('arrow-disabled')
-        }
+        };
     }
 });
+
+const burger = new Image()
+burger.src = `./icons/burger.png`
+burger.classList.add('burger')
+
+function burgerSizeHide() {
+    document.querySelector('.navigation__list').classList.add('visually-hidden')
+    document.querySelector('.navigation').appendChild(burger)
+};
+
+function burgerSizeShow() {
+    burger.remove()
+    document.querySelector('.navigation__list').classList.remove('visually-hidden')
+};
+
+window.addEventListener('resize', function () {
+    if (window.innerWidth <= 662) {
+        burgerSizeHide()
+    } else {
+        burgerSizeShow()
+    }
+});
+
+burger.onclick = function () {
+    document.querySelector('.modal2').classList.remove('visually-hidden')
+
+    document.querySelector('.modal2__button-close').onclick = function () {
+        document.querySelector('.modal2').classList.add('visually-hidden')
+    }
+
+    document.querySelector('.modal2__content').onclick = function (click) {
+        if (click.target.classList.contains('modal2__list') || click.target.classList.contains('modal2__item')) {
+            return
+        } else {
+            document.querySelector('.modal2').classList.add('visually-hidden')
+        }
+    }
+};
