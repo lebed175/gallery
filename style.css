@@ -172,7 +172,8 @@ svg * {
 /* КОНЕЦ НОРМАЛИЗАЦИИ СТИЛЕЙ */
 
 .visually-hidden {
-    display: none;
+    display: none !important;
+    
 }
 
 .container {
@@ -212,8 +213,8 @@ svg * {
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
-    row-gap: 10px;
-    column-gap: 10px;
+    row-gap: 20px;
+    column-gap: 20px;
     margin-top: 20px;
 }
 
@@ -233,15 +234,13 @@ svg * {
     transform: translate(-50%, -50%);
 }
 
-/* ПОЧЕМУ НЕ ПОЯВЛЯЕТСЯ ПЛЮС? РАЗОБРАТЬСЯ */
-
 .gallery__item:hover {
     filter: brightness(0.5);
 }
 
 .footer {
     padding-block: 40px;
-    background-color: rgb(39, 38, 38);
+    background-color: rgb(0, 0, 0);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -320,11 +319,6 @@ svg * {
     justify-content: center;
 }
 
-.test {
-    width: 90%;
-    max-height: auto;
-}
-
 .modal__main-prev {
     background-color: transparent;
     border: none;
@@ -352,4 +346,101 @@ svg * {
 .arrow-disabled {
     pointer-events: none;
     opacity: 0.5;
+}
+
+.modal2 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .7);
+    z-index: 1000; 
+    font-family: 'Montserrat';
+    font-weight: 400;
+    color: #ffffff;
+}
+
+.modal2__content {
+    height: 100vh;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal2__header {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modal2__button-close {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.modal2__options {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal2__list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 40px;
+}
+
+.modal2__item {
+    text-align: center;
+    transition-duration: 0.4s;
+}
+
+.modal2__item:hover {
+    color: #73b2cf;
+}
+
+.burger {
+    transition-duration: 0.4s;
+}
+
+.burger:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+@media (max-width: 1830px) {
+    .gallery__item {
+        flex-grow: 1;
+    }
+}
+
+@media (max-width: 1200px) {
+    .gallery__item {
+        flex-grow: 1;
+        width: 33%;
+        height: auto;
+    }
+}
+
+@media (max-width: 1024px) {
+    .gallery {
+        justify-content: space-between;
+        column-gap: 2px;
+        row-gap: 2px;
+    }
+
+    .gallery__item {
+        flex-grow: 1;
+        width: 40%;
+        height: auto;
+    }
+}
+
+@media (max-width: 930px) {
+    .modal__main {
+        column-gap: 15px;
+    }
 }
